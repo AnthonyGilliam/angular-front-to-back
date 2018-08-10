@@ -13,8 +13,6 @@ export class UsersComponent implements OnInit {
   versionNum: number;
   siteImageSrc: string;
   enableAdd: boolean = false;
-  currentClasses = {};
-  currentStyles: {};
 
   constructor() { }
 
@@ -37,9 +35,7 @@ export class UsersComponent implements OnInit {
             city: 'Boston',
             state: 'MA'
           },
-          image: 'https://loremflickr.com/600/600/brazil,guy',
           isActive: true,
-          balance: 100,
           registered: new Date('01/02/2018 08:30:00')
         },
         {
@@ -51,9 +47,7 @@ export class UsersComponent implements OnInit {
             city: 'Lynn',
             state: 'MA'
           },
-          image: 'https://loremflickr.com/600/600/paris,guy',
           isActive: false,
-          balance: 200,
           registered: new Date('01/02/2018 08:30:00')
         },
         {
@@ -65,40 +59,16 @@ export class UsersComponent implements OnInit {
             city: 'Miami',
             state: 'FL'
           },
-          image: 'https://loremflickr.com/600/600/brazil,girl',
           isActive: true,
-          balance: 50,
           registered: new Date('11/02/2016 10:30:00')
         }
       ];
 
-      this.addUser({
-        firstName: 'David',
-        lastName: 'Jackson',
-      });
-
       this.loaded = true;
-      this.setCurrentClasses();
-      this.setCurrentStyles();
     }, 2000);
   }
 
   addUser(user: User){
     this.users.push(user);
-  }
-
-  setCurrentClasses() {
-    this.enableAdd = true;
-    this.currentClasses = {
-      'btn-success': this.enableAdd,
-      'big-text': this.showExtended
-    }
-  }
-
-  setCurrentStyles() {
-    this.currentStyles = {
-      'padding-top': this.showExtended ? '40px' : 0,
-      'font-size': this.showExtended ? '' : '40px'
-    }
   }
 }
