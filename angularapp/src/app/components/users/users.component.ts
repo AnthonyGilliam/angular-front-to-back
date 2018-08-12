@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from "../../models/User";
 
 @Component({
@@ -7,12 +7,19 @@ import { User } from "../../models/User";
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+  user: User =
+  {
+    firstName: '',
+    lastName: '',
+    email:''
+  };
   users: User[];
-  showExtended: boolean;
   loaded: boolean;
   versionNum: number;
   siteImageSrc: string;
   enableAdd: boolean = false;
+  showUserForm: boolean = false;
+  @ViewChild('userForm')form: any;
 
   constructor() { }
 
@@ -21,7 +28,6 @@ export class UsersComponent implements OnInit {
     //Only 1 image will be loaded on the client per [src] binding! :)
     this.versionNum = 6;
     this.siteImageSrc = this.versionNum == 5 ? "../../../assets/angular5.png" : "../../../assets/angular6.png";
-    this.showExtended = true;
     this.loaded = false;
 
     setTimeout(() => {
@@ -29,46 +35,45 @@ export class UsersComponent implements OnInit {
         {
           firstName: 'John',
           lastName: 'Doe',
-          age: 30,
-          address: {
-            street: '50 Main st',
-            city: 'Boston',
-            state: 'MA'
-          },
+          email: 'johan@email.com',
           isActive: true,
-          registered: new Date('01/02/2018 08:30:00')
+          registered: new Date('01/02/2018 08:30:00'),
+          hide: true
         },
         {
           firstName: 'Kevin',
           lastName: 'Johnson',
-          age: 34,
-          address: {
-            street: '20 School st',
-            city: 'Lynn',
-            state: 'MA'
-          },
+          email: 'kevin@email.com',
           isActive: false,
-          registered: new Date('01/02/2018 08:30:00')
+          registered: new Date('05/03/2016 11:30:00'),
+          hide: true
         },
         {
           firstName: 'Karen',
           lastName: 'Williams',
-          age: 26,
-          address: {
-            street: '55 Mill st',
-            city: 'Miami',
-            state: 'FL'
-          },
+          email: 'karen@email.com',
           isActive: true,
-          registered: new Date('11/02/2016 10:30:00')
+          registered: new Date('11/02/2016 10:30:00'),
+          hide: true
         }
       ];
 
       this.loaded = true;
+      this.enableAdd = true;
     }, 2000);
   }
 
-  addUser(user: User){
-    this.users.push(user);
+  onSubmit({ value, valid }: { value: User, valid: boolean }){
+    if(!valid){
+      console.log('Form is not valid');
+    }
+    else {
+      let user = value;
+      user.isActive = true;
+      user.registered = new Date();
+      user.hide = true;
+      this.users.unshift(user);
+      this.form.reset();
+    }
   }
 }
