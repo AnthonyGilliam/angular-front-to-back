@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from "../../models/User";
+import { UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-users',
@@ -20,8 +21,9 @@ export class UsersComponent implements OnInit {
   enableAdd: boolean = false;
   showUserForm: boolean = false;
   @ViewChild('userForm')form: any;
+  data: any;
 
-  constructor() { }
+  constructor(private userService: UserService) {  }
 
   ngOnInit() {
     //Use property binding on the [src] attribute of the <img> tag to dynamically change an HTML image
@@ -30,34 +32,14 @@ export class UsersComponent implements OnInit {
     this.siteImageSrc = this.versionNum == 5 ? "../../../assets/angular5.png" : "../../../assets/angular6.png";
     this.loaded = false;
 
-    setTimeout(() => {
-      this.users = [
-        {
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'johan@email.com',
-          isActive: true,
-          registered: new Date('01/02/2018 08:30:00'),
-          hide: true
-        },
-        {
-          firstName: 'Kevin',
-          lastName: 'Johnson',
-          email: 'kevin@email.com',
-          isActive: false,
-          registered: new Date('05/03/2016 11:30:00'),
-          hide: true
-        },
-        {
-          firstName: 'Karen',
-          lastName: 'Williams',
-          email: 'karen@email.com',
-          isActive: true,
-          registered: new Date('11/02/2016 10:30:00'),
-          hide: true
-        }
-      ];
+    this.userService.getData().subscribe(data => {
+      console.log(data);
+    });
 
+    setTimeout(() => {
+      this.userService.getUsers().subscribe(users => {
+        this.users = users;
+      });
       this.loaded = true;
       this.enableAdd = true;
     }, 2000);
@@ -72,7 +54,9 @@ export class UsersComponent implements OnInit {
       user.isActive = true;
       user.registered = new Date();
       user.hide = true;
-      this.users.unshift(user);
+
+      this.userService.addUser(user);
+
       this.form.reset();
     }
   }
