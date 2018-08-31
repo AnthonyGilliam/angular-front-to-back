@@ -1,3 +1,9 @@
-<p>
-  log-form works!
-</p>
+<div class="card card-body mb-3">
+  <form>
+    <div class="form-group">
+      <input type="text" class="form-control mb-3" placeholder="Add a log...">
+      <input type="submit" [disabled]="!text" class="btn btn-light mr-2" value="Add Log">
+      <button [hidden]="!text" type="button" class="btn btn-warning">Clear</button>
+    </div>
+  </form>
+</div>
