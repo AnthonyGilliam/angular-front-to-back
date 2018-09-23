@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { FlashMessagesService } from 'angular2-flash-messages';
+import { ToastrService } from 'ngx-toastr';
+
+
+import { ClientService } from '../../services/client.service';
+import { Client } from '../../models/Client';
 
 @Component({
   selector: 'app-edit-client',
@@ -6,10 +13,47 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./edit-client.component.css']
 })
 export class EditClientComponent implements OnInit {
+  id: string;
+  client: Client = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    balance: 0
+  };
 
-  constructor() { }
+  disableBalanceOnEdit: true;
 
-  ngOnInit() {
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private clientService: ClientService,
+              private flashMessage: FlashMessagesService,
+              private toastr: ToastrService) {
+
   }
 
+  ngOnInit() {
+    // Get ID from URL
+    this.id = this.route.snapshot.params['id'];
+    // Get client
+    this.clientService
+      .getClient(this.id)
+      .subscribe(client => {
+        this.client = client;
+      });
+  }
+
+  onSubmit({ value, valid }: { value: Client, valid: boolean }) {
+    if (!valid) {
+      this.flashMessage.show('Please fill out the form correctly', {
+        cssClass: 'alert-danger', timeout: 4000 });
+    } else {
+      // Add id to client
+      value.id = this.id;
+      // Update Client
+      this.clientService.updateClient(value);
+      this.toastr.success('Client updated', 'Success!');
+      this.router.navigate(['/client/' + this.id]);
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
+import { ToastrService } from 'ngx-toastr';
 
 import { ClientService } from '../../services/client.service';
 import { Client } from '../../models/Client';
@@ -22,9 +23,10 @@ export class AddClientComponent implements OnInit {
   disableBalanceOnAdd = true;
   @ViewChild('ClientForm') form: any;
 
-  constructor(private flashMessage: FlashMessagesService,
-              private clientService: ClientService,
-              private router: Router) { }
+  constructor(private clientService: ClientService,
+              private router: Router,
+              private flashMessage: FlashMessagesService,
+              private toastr: ToastrService) { }
 
   ngOnInit() {
   }
@@ -44,7 +46,7 @@ export class AddClientComponent implements OnInit {
       // Add new client
       this.clientService.addClient(value);
       // show message
-      this.flashMessage.show('New Client Added!', { cssClass: 'alert-success' });
+      this.toastr.success('New Client Added!', 'Success!', { closeButton: true, tapToDismiss: true });
       // Redirect to dash
       this.router.navigate(['/']);
     }
