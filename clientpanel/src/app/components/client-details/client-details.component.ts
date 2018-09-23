@@ -29,7 +29,15 @@ export class ClientDetailsComponent implements OnInit {
       .getClient(this.id)
       .subscribe(client => {
         this.client = client;
-        console.log(this.client);
       });
+  }
+
+  updateBalance() {
+    this.clientService.updateClient(this.client);
+    this.flashMessage
+      .show('Balance Updated'
+      , {
+      cssClass: 'alert-success', timeout: 4000
+    });
   }
 }
