@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { User } from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,11 @@ export class AuthService {
     });
   }
 
-  getAuth(): Observable<boolean> {
-    return this.afAuth.authState.pipe(map(user => !!user));
+  getAuth(): Observable<User> {
+    return this.afAuth.authState;
+  }
+
+  logout() {
+    this.afAuth.auth.signOut();
   }
 }

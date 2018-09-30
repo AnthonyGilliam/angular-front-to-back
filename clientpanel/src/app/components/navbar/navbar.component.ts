@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+
+
+import { AuthService } from '../../services/auth.service';
+import { Client } from '../../models/Client';
 
 @Component({
   selector: 'app-navbar',
@@ -6,10 +12,30 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  isLoggedIn: boolean;
+  loggedInUser: string;
+  showRegister: boolean;
 
-  constructor() { }
+  constructor(private router: Router,
+              private toastr: ToastrService,
+              private authService: AuthService) { }
 
   ngOnInit() {
+    this.authService
+      .getAuth()
+      .subscribe(auth => {
+        if (auth) {
+          this.isLoggedIn = true;
+          this.loggedInUser = auth.email;
+        } else {
+          this.isLoggedIn = false;
+        }
+      });
   }
 
+  onLogout() {
+    this.authService.logout();
+    this.toastr.success('You are now logged out', 'Success!');
+    this.router.navigate(['/login']);
+  }
 }
