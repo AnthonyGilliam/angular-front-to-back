@@ -24,6 +24,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 
 import { environment } from '../environments/environment';
+import { SettingsService } from './services/settings.service';
 import { AuthService } from './services/auth.service';
 import { ClientService } from './services/client.service';
 
@@ -54,7 +55,7 @@ import { ClientService } from './services/client.service';
     SettingsComponent,
     NotFoundComponent
   ],
-  providers: [ClientService, AuthService],
-  bootstrap: [AppComponent]
+  providers: [ ClientService, AuthService, SettingsService ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

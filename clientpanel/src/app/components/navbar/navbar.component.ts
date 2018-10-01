@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
-
+import { SettingsService } from '../../services/settings.service';
 import { AuthService } from '../../services/auth.service';
 import { Client } from '../../models/Client';
 
@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(private router: Router,
               private toastr: ToastrService,
+              private settingService: SettingsService,
               private authService: AuthService) { }
 
   ngOnInit() {
@@ -31,6 +32,7 @@ export class NavbarComponent implements OnInit {
           this.isLoggedIn = false;
         }
       });
+    this.showRegister = this.settingService.getSettings().allowRegistration;
   }
 
   onLogout() {

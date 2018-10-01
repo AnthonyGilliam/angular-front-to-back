@@ -15,8 +15,8 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       this.afAuth.auth
         .signInWithEmailAndPassword(email, password)
-        .then(userData => resolve(userData),
-            err => reject(err));
+        .then(userData => resolve(userData))
+        .catch(err => reject(err));
     });
   }
 
@@ -26,5 +26,14 @@ export class AuthService {
 
   logout() {
     this.afAuth.auth.signOut();
+  }
+
+  register(email: string, password: string) {
+    return new Promise((resolve, reject) => {
+      this.afAuth.auth
+        .createUserWithEmailAndPassword(email, password)
+        .then(userData => resolve(userData))
+        .catch(err => reject(err));
+    });
   }
 }

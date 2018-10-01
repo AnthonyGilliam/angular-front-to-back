@@ -4,6 +4,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 import { ToastrService } from 'ngx-toastr';
 
 
+import { SettingsService } from '../../services/settings.service';
 import { ClientService } from '../../services/client.service';
 import { Client } from '../../models/Client';
 
@@ -22,10 +23,11 @@ export class EditClientComponent implements OnInit {
     balance: 0
   };
 
-  disableBalanceOnEdit: true;
+  disableBalanceOnEdit: boolean;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
+              private settingsService: SettingsService,
               private clientService: ClientService,
               private flashMessage: FlashMessagesService,
               private toastr: ToastrService) {
@@ -33,6 +35,7 @@ export class EditClientComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.disableBalanceOnEdit = this.settingsService.getSettings().disableBalanceOnEdit;
     // Get ID from URL
     this.id = this.route.snapshot.params['id'];
     // Get client
