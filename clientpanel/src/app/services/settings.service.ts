@@ -6,9 +6,9 @@ import { Settings } from '../models/Settings';
 })
 export class SettingsService {
   settings: Settings = {
-    allowRegistration: false,
-    disableBalanceOnAdd: false,
-    disableBalanceOnEdit: true
+    allowRegistration: true,
+    disableBalanceOnAdd: true,
+    disableBalanceOnEdit: false
   };
 
   constructor() {
